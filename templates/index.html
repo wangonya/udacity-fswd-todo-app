@@ -1,3 +1,7 @@
-<p>Hey there!</p>
-<br>
-<p>{{data}}</p>
+{% if todos %}
+  {% for todo in todos %}
+    <p>{{todo.description}}</p>
+  {% endfor %}
+{% else %}
+  <p>No todos found</p>
+{% endif %}
