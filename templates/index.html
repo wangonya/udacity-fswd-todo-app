@@ -3,17 +3,19 @@
 {% block content %}
 
   <div class="add-todo">
-    <form action="/todos/create" method="POST">
+    <form id="todo-form">
       <label for="todo-description">Add something: </label>
       <input type="text" id="todo-description" name="todo-description">
 
-      <input type="submit" value="Submit">
+      <input type="submit" value="Add">
     </form>
   </div>
   {% if todos %}
+    <ul id="todos">
     {% for todo in todos %}
-      <p>{{todo.description}}</p>
+      <li>{{todo.description}}</li>
     {% endfor %}
+    </ul>
   {% else %}
     <p>No todos found</p>
   {% endif %}
