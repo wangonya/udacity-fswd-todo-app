@@ -1,7 +1,20 @@
-{% if todos %}
-  {% for todo in todos %}
-    <p>{{todo.description}}</p>
-  {% endfor %}
-{% else %}
-  <p>No todos found</p>
-{% endif %}
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="add-todo">
+    <form action="/todos/create" method="POST">
+      <label for="todo-description">Add something: </label>
+      <input type="text" id="todo-description" name="todo-description">
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  {% if todos %}
+    {% for todo in todos %}
+      <p>{{todo.description}}</p>
+    {% endfor %}
+  {% else %}
+    <p>No todos found</p>
+  {% endif %}
+{% endblock %}
