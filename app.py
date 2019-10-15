@@ -21,9 +21,6 @@ class Todo(db.Model):
         return f'<Todo {self.id} {self.description}>'
 
 
-db.create_all()
-
-
 @app.route('/')
 def index():
     return render_template('index.html', todos=Todo.query.all())
