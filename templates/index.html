@@ -2,21 +2,21 @@
 
 {% block content %}
 
-  <div class="add-todo">
-    <form id="todo-form">
-      <label for="todo-description">Add something: </label>
-      <input type="text" id="todo-description" name="todo-description">
+<div class="add-todo">
+  <form id="todo-form">
+    <label for="todo-description">Add something: </label>
+    <input type="text" id="todo-description" name="todo-description">
 
-      <input type="submit" value="Add">
-    </form>
-  </div>
-  {% if todos %}
-    <ul id="todos">
-    {% for todo in todos %}
-      <li>{{todo.description}}</li>
-    {% endfor %}
-    </ul>
-  {% else %}
-    <p>No todos found</p>
-  {% endif %}
+    <input type="submit" value="Add">
+  </form>
+</div>
+{% if todos %}
+<ul id="todos">
+  {% for todo in todos %}
+  <li><input type="checkbox" name="done" id="done" {% if todo.done %} checked {% endif %}>{{todo.description}}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No todos found</p>
+{% endif %}
 {% endblock %}
