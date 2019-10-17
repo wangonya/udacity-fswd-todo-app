@@ -1,5 +1,6 @@
 console.log('Welcome to Flask Todos!')
 
+// add new todo item
 document.getElementById('todo-form').onsubmit = (e) => {
   e.preventDefault()
   fetch('/todos/create', {
@@ -13,9 +14,40 @@ document.getElementById('todo-form').onsubmit = (e) => {
   })
     .then((response) => {return response.json()})
     .then((jsonResponse) => {
+      const todoList = document.getElementById('todos')
       const liItem = document.createElement('LI')
       liItem.innerHTML = jsonResponse['description']
-      document.getElementById('todos').appendChild(liItem)
+      const checkBox = document.createElement('input')
+      checkBox.type = "checkbox"
+      checkBox.name = "check-done"
+      checkBox.id = "check-done"
+      checkBox.setAttribute('data-id', jsonResponse['id'])
+      liItem.prepend(checkBox)
+      todoList.appendChild(liItem)
+      completeTodos()
     })
     .catch((e) => console.log('Something bad happened:', e))
 }
+
+// mark todo as done
+const completeTodos = () => {
+  const checkBoxes = document.querySelectorAll('#check-done')
+  checkBoxes.forEach(checkBox => {
+    checkBox.onchange = e => {
+      checkBoxId = checkBox.getAttribute('data-id')
+      fetch('/todos/complete', {
+        method: 'PATCH',
+        body: JSON.stringify({
+          'id': checkBoxId,
+          'done': e.target.checked
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .catch(e => console.log('Something bad happened:', e))
+    }
+  })
+}
+
+completeTodos()

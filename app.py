@@ -33,8 +33,24 @@ def add_todo():
         todo = Todo(description=todo)
         db.session.add(todo)
         db.session.commit()
-        return jsonify({'description': todo.description})
+        return jsonify({'description': todo.description, 'id': todo.id})
     except:
+        db.session.rollback()
+        abort(400)
+    finally:
+        db.session.close()
+
+
+@app.route('/todos/complete', methods=['PATCH'])
+def complete_todo():
+    try:
+        todo = request.get_json()['id']
+        todo = Todo.query.get(todo)
+        todo.done = request.get_json()['done']
+        db.session.commit()
+        return 'ok'
+    except Exception as e:
+        print(e)
         db.session.rollback()
         abort(400)
     finally:

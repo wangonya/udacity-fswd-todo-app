@@ -13,7 +13,15 @@
 {% if todos %}
 <ul id="todos">
   {% for todo in todos %}
-  <li><input type="checkbox" name="done" id="done" {% if todo.done %} checked {% endif %}>{{todo.description}}</li>
+  <li>
+    <input
+      type="checkbox"
+      name="check-done"
+      id="check-done"
+      data-id={{ todo.id }}
+      {% if todo.done %} checked {% endif %}>
+    {{todo.description}}
+  </li>
   {% endfor %}
 </ul>
 {% else %}
