@@ -1,6 +1,7 @@
 import os
 
-from flask import (Flask, render_template, request, abort, url_for, jsonify)
+from flask import (Flask, render_template, request, abort, redirect, url_for,
+                   jsonify)
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -49,6 +50,22 @@ def complete_todo():
         todo.done = request.get_json()['done']
         db.session.commit()
         return 'ok'
+    except Exception as e:
+        print(e)
+        db.session.rollback()
+        abort(400)
+    finally:
+        db.session.close()
+
+
+@app.route('/todos/delete', methods=['DELETE'])
+def delete_todo():
+    try:
+        todo = request.get_json()['id']
+        todo = Todo.query.get(todo)
+        db.session.delete(todo)
+        db.session.commit()
+        return render_template('index.html', todos=Todo.query.all())
     except Exception as e:
         print(e)
         db.session.rollback()
