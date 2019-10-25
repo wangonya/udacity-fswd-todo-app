@@ -21,6 +21,7 @@
       data-id={{ todo.id }}
       {% if todo.done %} checked {% endif %}>
     {{todo.description}}
+    <button id="delete-todo" onclick='deleteTodo({{todo.id}})'>&cross;</button>
   </li>
   {% endfor %}
 </ul>

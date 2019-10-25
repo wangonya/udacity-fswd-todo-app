@@ -23,6 +23,10 @@ document.getElementById('todo-form').onsubmit = (e) => {
       checkBox.id = "check-done"
       checkBox.setAttribute('data-id', jsonResponse['id'])
       liItem.prepend(checkBox)
+      const deleteButton = document.createElement('button')
+      deleteButton.innerHTML = '&cross;'
+      deleteButton.setAttribute('onclick', `deleteTodo(${jsonResponse['id']})`)
+      liItem.append(deleteButton)
       todoList.appendChild(liItem)
       completeTodos()
     })
@@ -51,3 +55,18 @@ const completeTodos = () => {
 }
 
 completeTodos()
+
+// delete todos
+const deleteTodo = (todoId) => {
+  fetch('/todos/delete', {
+    method: 'DELETE',
+    body: JSON.stringify({
+      'id': todoId
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(console.log('deleted!'))
+    .catch(e => console.log('Something went wrong:', e))
+}
