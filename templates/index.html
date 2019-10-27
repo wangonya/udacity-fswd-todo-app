@@ -2,6 +2,22 @@
 
 {% block content %}
 
+<div class="">
+  {% if lists %}
+    <ul class="lists">
+      {% for list in lists %}
+      <a href="/lists/{{list.id}}">
+        <li>
+          {{ list.name }}
+        </li>
+      </a>
+      {% endfor %}
+    </ul>
+  {% else %}
+  <p>No lists found</p>
+  {% endif %}
+</div>
+
 <div class="add-todo">
   <form id="todo-form">
     <label for="todo-description">Add something: </label>
